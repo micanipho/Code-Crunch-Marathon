@@ -49,14 +49,14 @@ def send_alert(data, account_sid, token, message_service_sid):
     # Check if there is data available for alerting
     if data is not None:
         # Extract the time from the second data entry
-        time = data[1][1].split()[1]
-        time_value = int(time.split(':')[0])  # Get the hour component
+        time = data[1][1].split()
+        time_value = int(time[1].split(':')[0])  # Get the hour component
 
         # Determine if the time is in the AM or PM
         suffix = 'am' if time_value < 12 else 'pm'
 
         # Create the message text for the alert
-        message_text = f"\n\nHi\nExpect {data[1][0]}\nAround {time} {suffix}"
+        message_text = f"\n\nHi\nExpect {data[1][0]}\nOn {time[0]}\nAround {time[1]} {suffix}"
 
         # Initialize the Twilio client
         client = Client(account_sid, token)
