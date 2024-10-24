@@ -35,7 +35,7 @@ def get_data(latitude, longitude, key):
 
     # Loop through the weather data to find clear weather
     for timestamp, weather in weather_data:
-        if weather['main'].lower() == 'clear':
+        if weather['main'].lower() == 'rain':
             rain_times.append((weather['description'], timestamp))
             # Stop after finding the first two entries
             if len(rain_times) >= 2:
