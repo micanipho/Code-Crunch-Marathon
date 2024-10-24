@@ -33,3 +33,15 @@ Before you begin, ensure you have the following installed:
 4. **OpenWeather API Key** – [Generate your key here](https://openweathermap.org/api)
 
 ---
+ ## Usage
+
+1. Create **Twilio account** – [Sign up here](https://www.twilio.com/try-twilio)  
+2. Get your **OpenWeather API Key** – [Generate your key here](https://openweathermap.org/api)
+3. At the root folder craete a .env file and store your credentials in this format:
+```bash 
+ACCOUNT_SID= {acoount_sid}
+AUTH_TOKEN={auth_token}
+API_KEY={api_key}
+MESSAGE_SERVICE_SID={service_sid}
+CELL_NUMBER={verified number on twilio}
+```

@@ -45,7 +45,7 @@ def get_data(latitude, longitude, key):
     return rain_times if rain_times else None
 
 
-def send_alert(data, account_sid, token, message_service_sid):
+def send_alert(data, account_sid, token, message_service_sid, cell_number):
     # Check if there is data available for alerting
     if data is not None:
         # Extract the time from the second data entry
@@ -66,10 +66,10 @@ def send_alert(data, account_sid, token, message_service_sid):
             message = client.messages.create(
                 messaging_service_sid=message_service_sid,
                 body=message_text,
-                to='+27636639970'  # Replace with the recipient's phone number
+                to=cell_number  # Replace with the recipient's phone number
             )
             if message.sid:  # Check if the message was sent successfully
-                print(f"Notification sent to +27636639970")
+                print(f"Notification sent to {cell_number}")
         except Exception as e:
             print(f"Failed to send message: {e}")  # Handle any errors in sending
 
@@ -86,6 +86,7 @@ def main():
     AUTH_TOKEN = os.getenv('AUTH_TOKEN')
     API_KEY = os.getenv('API_KEY')
     MESSAGE_SERVICE_SID = os.getenv('MESSAGE_SERVICE_SID')
+    CELL_NUMBER = os.getenv('CELL_NUMBER')
 
     # Get latitude and longitude of the current location
     coordinates = get_current_gps_coordinates()
@@ -97,7 +98,7 @@ def main():
         data = get_data(latitude, longitude, API_KEY)
 
         # Send an alert based on the fetched data
-        send_alert(data, ACCOUNT_SID, AUTH_TOKEN, MESSAGE_SERVICE_SID)
+        send_alert(data, ACCOUNT_SID, AUTH_TOKEN, MESSAGE_SERVICE_SID,CELL_NUMBER)
     else:
         # Error message for location retrieval failure
         print("Error: couldn't retrieve your location. Please check your internet connection.")
