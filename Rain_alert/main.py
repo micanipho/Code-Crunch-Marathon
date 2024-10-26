@@ -1,20 +1,27 @@
 import os
 from twilio.rest import Client
 import requests
-import geocoder
 from dotenv import load_dotenv
-
+from geopy.geocoders import Nominatim
 
 
 def get_current_gps_coordinates():
-    # Use the geocoder library to get the current location based on the device's IP address
-    g = geocoder.ip('me')  # Retrieves location information for the current IP
 
-    # Check if the latitude and longitude coordinates are available
-    if g.latlng is not None:  # g.latlng contains the coordinates if found
-        return g.latlng  # Return the latitude and longitude as a list [latitude, longitude]
-    else:
-        return None  # Return None if the coordinates could not be found
+    # Initialize the Nominatim geocoder with a user agent for identification
+    geolocator = Nominatim(user_agent="RainAlertSystem")
+
+    # Prompt the user to enter a city name
+    place = input("Enter city name: ")
+
+    # Attempt to geocode the provided city name
+    location = geolocator.geocode(place)
+
+    # Check if the location was found and return the coordinates
+    if location:
+        return location.latitude, location.longitude
+
+    # Return None if the location could not be found
+    return None
 
 
 def get_data(latitude, longitude, key):
@@ -87,6 +94,7 @@ def main():
     API_KEY = os.getenv('API_KEY')
     MESSAGE_SERVICE_SID = os.getenv('MESSAGE_SERVICE_SID')
     CELL_NUMBER = os.getenv('CELL_NUMBER')
+
 
     # Get latitude and longitude of the current location
     coordinates = get_current_gps_coordinates()
